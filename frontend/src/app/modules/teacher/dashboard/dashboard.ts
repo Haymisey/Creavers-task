@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DataService } from '../../../services/data.service';
 import { AuthService } from '../../../services/auth.service';
@@ -27,16 +27,20 @@ export class DashboardComponent implements OnInit {
     private dataService: DataService,
     private authService: AuthService,
     private router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
+    console.log('Teacher Dashboard Initialized. Current User:', this.authService.currentUserValue);
     this.loadData();
   }
 
   loadData() {
     this.dataService.getAssignedStudents().subscribe((data: any[]) => {
+      console.log('Teacher assigned grades received:', data);
       this.assignedGrades = data;
+      this.cdr.detectChanges();
     });
   }
 

@@ -10,10 +10,12 @@ router.use(authorize(['Teacher']));
 
 // @route   GET api/teacher/assigned-students
 router.get('/assigned-students', async (req, res) => {
+  console.log('Teacher fetching assigned students. ID:', req.user.id);
   try {
     const grades = await Grade.find({ "subjectTeachers.teacher": req.user.id })
       .populate('students', 'name email')
       .populate('subjectTeachers.subject', 'name');
+    console.log(`Found ${grades.length} grades for teacher ${req.user.id}`);
     res.json(grades);
   } catch (err) {
     console.error('Error fetching assigned students:', err);

@@ -43,12 +43,15 @@ import { CommonModule } from '@angular/common';
   `,
   styles: [`
     .dialog-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 24px; }
-    h2 { margin: 0; font-weight: 700; color: white; }
-    .dialog-form { display: flex; flex-direction: column; gap: 8px; padding-top: 8px; }
+    h2 { margin: 0; font-weight: 700; color: white; font-size: 20px; }
+    .dialog-form { display: flex; flex-direction: column; gap: 16px; padding: 8px 0; }
     .full-width { width: 100%; }
-    .dialog-actions { padding: 16px 0 0; }
-    button[mat-button] { color: var(--text-muted); }
-    button[mat-flat-button] { border-radius: 12px; font-weight: 600; padding: 0 24px; color: white !important; }
+    .dialog-actions { padding: 16px 0 0; display: flex; gap: 12px; justify-content: flex-end; }
+    button[mat-button] { color: var(--text-muted); font-weight: 600; }
+    button[mat-flat-button] { border-radius: 12px; font-weight: 700; padding: 0 32px; height: 48px !important; }
+    
+    ::ng-deep .mat-mdc-form-field-icon-prefix { padding-right: 12px !important; color: var(--primary) !important; }
+    ::ng-deep .mat-mdc-text-field-wrapper { background: rgba(255, 255, 255, 0.02) !important; }
   `]
 })
 export class AssignMarksDialogComponent {

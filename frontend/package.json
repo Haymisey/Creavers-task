@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "npx ng",
-    "start": "npx ng serve",
+    "start": "npx ng serve --proxy-config proxy.conf.json",
     "build": "npx ng build",
     "watch": "npx ng build --watch --configuration development",
     "test": "npx ng test"

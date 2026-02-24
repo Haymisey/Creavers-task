@@ -9,7 +9,7 @@ import { map } from 'rxjs/operators';
 export class AuthService {
   private currentUserSubject: BehaviorSubject<any>;
   public currentUser: Observable<any>;
-  private apiUrl = 'http://localhost:5000/api/auth';
+  private apiUrl = '/api/auth';
 
   constructor(private http: HttpClient) {
     this.currentUserSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('currentUser') || '{}'));

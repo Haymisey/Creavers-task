@@ -86,6 +86,25 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  deleteTeacher(id: string) {
+    if (confirm('Are you sure you want to delete this teacher?')) {
+      this.dataService.deleteTeacher(id).subscribe(() => this.loadData());
+    }
+  }
+
+  editTeacher(teacher: any) {
+    const dialogRef = this.dialog.open(AddUserDialogComponent, {
+      width: '400px',
+      data: { role: 'Teacher', user: teacher }
+    });
+
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if (result) {
+        this.dataService.updateTeacher(teacher._id, result).subscribe(() => this.loadData());
+      }
+    });
+  }
+
   addStudent() {
     const dialogRef = this.dialog.open(AddUserDialogComponent, {
       width: '400px',
@@ -97,6 +116,25 @@ export class DashboardComponent implements OnInit {
         this.dataService.addStudent(result).subscribe(() => this.loadData());
       }
     });
+  }
+
+  editStudent(student: any) {
+    const dialogRef = this.dialog.open(AddUserDialogComponent, {
+      width: '400px',
+      data: { role: 'Student', user: student }
+    });
+
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if (result) {
+        this.dataService.updateStudent(student._id, result).subscribe(() => this.loadData());
+      }
+    });
+  }
+
+  deleteStudent(id: string) {
+    if (confirm('Are you sure you want to delete this student?')) {
+      this.dataService.deleteStudent(id).subscribe(() => this.loadData());
+    }
   }
 
   addSubject() {
@@ -111,6 +149,25 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  editSubject(subject: any) {
+    const dialogRef = this.dialog.open(AddSubjectDialogComponent, {
+      width: '400px',
+      data: { subject }
+    });
+
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if (result) {
+        this.dataService.updateSubject(subject._id, result).subscribe(() => this.loadData());
+      }
+    });
+  }
+
+  deleteSubject(id: string) {
+    if (confirm('Are you sure you want to delete this subject?')) {
+      this.dataService.deleteSubject(id).subscribe(() => this.loadData());
+    }
+  }
+
   addGrade() {
     const dialogRef = this.dialog.open(AddGradeDialogComponent, {
       width: '600px',
@@ -122,5 +179,29 @@ export class DashboardComponent implements OnInit {
         this.dataService.addGrade(result).subscribe(() => this.loadData());
       }
     });
+  }
+
+  editGrade(grade: any) {
+    const dialogRef = this.dialog.open(AddGradeDialogComponent, {
+      width: '600px',
+      data: { 
+        grade,
+        teachers: this.teachers, 
+        students: this.students, 
+        subjects: this.subjects 
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if (result) {
+        this.dataService.updateGrade(grade._id, result).subscribe(() => this.loadData());
+      }
+    });
+  }
+
+  deleteGrade(id: string) {
+    if (confirm('Are you sure you want to delete this class?')) {
+      this.dataService.deleteGrade(id).subscribe(() => this.loadData());
+    }
   }
 }

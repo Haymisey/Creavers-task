@@ -43,8 +43,8 @@
                   <ng-container matColumnDef="actions">
                     <th mat-header-cell *matHeaderCellDef> Actions </th>
                     <td mat-cell *matCellDef="let teacher">
-                      <button mat-icon-button color="primary"><mat-icon>edit</mat-icon></button>
-                      <button mat-icon-button color="warn"><mat-icon>delete</mat-icon></button>
+                      <button mat-icon-button color="primary" (click)="editTeacher(teacher)"><mat-icon>edit</mat-icon></button>
+                      <button mat-icon-button color="warn" (click)="deleteTeacher(teacher._id)"><mat-icon>delete</mat-icon></button>
                     </td>
                   </ng-container>
                   <tr mat-header-row *matHeaderRowDef="['name', 'email', 'actions']"></tr>
@@ -75,8 +75,8 @@
                   <ng-container matColumnDef="actions">
                     <th mat-header-cell *matHeaderCellDef> Actions </th>
                     <td mat-cell *matCellDef="let student">
-                      <button mat-icon-button color="primary"><mat-icon>edit</mat-icon></button>
-                      <button mat-icon-button color="warn"><mat-icon>delete</mat-icon></button>
+                      <button mat-icon-button color="primary" (click)="editStudent(student)"><mat-icon>edit</mat-icon></button>
+                      <button mat-icon-button color="warn" (click)="deleteStudent(student._id)"><mat-icon>delete</mat-icon></button>
                     </td>
                   </ng-container>
                   <tr mat-header-row *matHeaderRowDef="['name', 'email', 'actions']"></tr>
@@ -107,8 +107,8 @@
                   <ng-container matColumnDef="actions">
                     <th mat-header-cell *matHeaderCellDef> Actions </th>
                     <td mat-cell *matCellDef="let subject">
-                      <button mat-icon-button color="primary"><mat-icon>edit</mat-icon></button>
-                      <button mat-icon-button color="warn"><mat-icon>delete</mat-icon></button>
+                      <button mat-icon-button color="primary" (click)="editSubject(subject)"><mat-icon>edit</mat-icon></button>
+                      <button mat-icon-button color="warn" (click)="deleteSubject(subject._id)"><mat-icon>delete</mat-icon></button>
                     </td>
                   </ng-container>
                   <tr mat-header-row *matHeaderRowDef="['name', 'description', 'actions']"></tr>
@@ -145,8 +145,8 @@
                   <ng-container matColumnDef="actions">
                     <th mat-header-cell *matHeaderCellDef> Actions </th>
                     <td mat-cell *matCellDef="let grade">
-                      <button mat-icon-button color="primary"><mat-icon>edit</mat-icon></button>
-                      <button mat-icon-button color="warn"><mat-icon>delete</mat-icon></button>
+                      <button mat-icon-button color="primary" (click)="editGrade(grade)"><mat-icon>edit</mat-icon></button>
+                      <button mat-icon-button color="warn" (click)="deleteGrade(grade._id)"><mat-icon>delete</mat-icon></button>
                     </td>
                   </ng-container>
                   <tr mat-header-row *matHeaderRowDef="['name', 'teacher', 'actions']"></tr>

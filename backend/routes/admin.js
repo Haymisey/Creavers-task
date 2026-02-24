@@ -34,6 +34,32 @@ router.post('/teachers', async (req, res) => {
   }
 });
 
+// @route   PUT api/admin/teachers/:id
+router.put('/teachers/:id', async (req, res) => {
+  const { name, email, password } = req.body;
+  try {
+    let user = await User.findById(req.params.id);
+    if (!user) return res.status(404).json({ msg: 'Teacher not found' });
+    user.name = name || user.name;
+    user.email = email || user.email;
+    if (password) user.password = password;
+    await user.save();
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ error: 'Server Error' });
+  }
+});
+
+// @route   DELETE api/admin/teachers/:id
+router.delete('/teachers/:id', async (req, res) => {
+  try {
+    await User.findByIdAndDelete(req.params.id);
+    res.json({ msg: 'Teacher removed' });
+  } catch (err) {
+    res.status(500).json({ error: 'Server Error' });
+  }
+});
+
 // @route   GET api/admin/students
 router.get('/students', async (req, res) => {
   try {
@@ -58,6 +84,32 @@ router.post('/students', async (req, res) => {
   }
 });
 
+// @route   PUT api/admin/students/:id
+router.put('/students/:id', async (req, res) => {
+  const { name, email, password } = req.body;
+  try {
+    let user = await User.findById(req.params.id);
+    if (!user) return res.status(404).json({ msg: 'Student not found' });
+    user.name = name || user.name;
+    user.email = email || user.email;
+    if (password) user.password = password;
+    await user.save();
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ error: 'Server Error' });
+  }
+});
+
+// @route   DELETE api/admin/students/:id
+router.delete('/students/:id', async (req, res) => {
+  try {
+    await User.findByIdAndDelete(req.params.id);
+    res.json({ msg: 'Student removed' });
+  } catch (err) {
+    res.status(500).json({ error: 'Server Error' });
+  }
+});
+
 // @route   GET api/admin/subjects
 router.get('/subjects', async (req, res) => {
   try {
@@ -77,6 +129,31 @@ router.post('/subjects', async (req, res) => {
     res.json(newSubject);
   } catch (err) {
     res.status(500).send('Server Error');
+  }
+});
+
+// @route   PUT api/admin/subjects/:id
+router.put('/subjects/:id', async (req, res) => {
+  const { name, description } = req.body;
+  try {
+    let subject = await Subject.findById(req.params.id);
+    if (!subject) return res.status(404).json({ msg: 'Subject not found' });
+    subject.name = name || subject.name;
+    subject.description = description || subject.description;
+    await subject.save();
+    res.json(subject);
+  } catch (err) {
+    res.status(500).json({ error: 'Server Error' });
+  }
+});
+
+// @route   DELETE api/admin/subjects/:id
+router.delete('/subjects/:id', async (req, res) => {
+  try {
+    await Subject.findByIdAndDelete(req.params.id);
+    res.json({ msg: 'Subject removed' });
+  } catch (err) {
+    res.status(500).json({ error: 'Server Error' });
   }
 });
 
@@ -111,7 +188,7 @@ router.post('/grades', async (req, res) => {
   }
 });
 
-// @route   PUT api/admin/grades/:id
+// @route   GET api/admin/grades/:id
 router.get('/grades/:id', async (req, res) => {
   try {
     const grade = await Grade.findById(req.params.id)
@@ -141,6 +218,16 @@ router.put('/grades/:id', async (req, res) => {
   } catch (err) {
     console.error('Error updating class:', err);
     res.status(500).json({ error: 'Failed to update class', details: err.message });
+  }
+});
+
+// @route   DELETE api/admin/grades/:id
+router.delete('/grades/:id', async (req, res) => {
+  try {
+    await Grade.findByIdAndDelete(req.params.id);
+    res.json({ msg: 'Class removed' });
+  } catch (err) {
+    res.status(500).json({ error: 'Server Error' });
   }
 });
 

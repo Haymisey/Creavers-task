@@ -9,6 +9,8 @@ const Grade = require('../models/Grade');
 router.use(auth);
 router.use(authorize(['Admin']));
 
+// --- TEACHERS ---
+
 // @route   GET api/admin/teachers
 router.get('/teachers', async (req, res) => {
   try {
@@ -60,6 +62,8 @@ router.delete('/teachers/:id', async (req, res) => {
   }
 });
 
+// --- STUDENTS ---
+
 // @route   GET api/admin/students
 router.get('/students', async (req, res) => {
   try {
@@ -110,6 +114,8 @@ router.delete('/students/:id', async (req, res) => {
   }
 });
 
+// --- SUBJECTS ---
+
 // @route   GET api/admin/subjects
 router.get('/subjects', async (req, res) => {
   try {
@@ -157,6 +163,8 @@ router.delete('/subjects/:id', async (req, res) => {
   }
 });
 
+// --- CLASSES (GRADES) ---
+
 // @route   GET api/admin/grades
 router.get('/grades', async (req, res) => {
   try {
@@ -174,13 +182,15 @@ router.get('/grades', async (req, res) => {
 // @route   POST api/admin/grades
 router.post('/grades', async (req, res) => {
   const { name, studentIds, subjectTeachers } = req.body;
+  console.log('Creating Class Payload:', req.body);
   try {
     const newGrade = new Grade({ 
       name, 
       students: studentIds, 
-      subjectTeachers: subjectTeachers // Expecting array of { subject: id, teacher: id }
+      subjectTeachers: subjectTeachers 
     });
     await newGrade.save();
+    console.log('Class Saved Successfully:', newGrade._id);
     res.json(newGrade);
   } catch (err) {
     console.error('Error creating class:', err);
@@ -205,15 +215,17 @@ router.get('/grades/:id', async (req, res) => {
 // @route   PUT api/admin/grades/:id
 router.put('/grades/:id', async (req, res) => {
   const { name, studentIds, subjectTeachers } = req.body;
+  console.log('Updating Class Payload:', req.params.id, req.body);
   try {
     let grade = await Grade.findById(req.params.id);
     if (!grade) return res.status(404).json({ msg: 'Class not found' });
 
     grade.name = name || grade.name;
     grade.students = studentIds || grade.students;
-    grade.subjectTeachers = subjectTeachers || grade.subjectTeachers;
+    grade.subjectTeachers = subjectTeachers !== undefined ? subjectTeachers : grade.subjectTeachers;
 
     await grade.save();
+    console.log('Class Updated Successfully:', grade._id);
     res.json(grade);
   } catch (err) {
     console.error('Error updating class:', err);

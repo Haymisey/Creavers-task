@@ -13,7 +13,7 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule, ReactiveFormsModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule],
   template: `
     <div class="dialog-header">
-      <h2 mat-dialog-title>Add New Subject</h2>
+      <h2 mat-dialog-title>{{isEdit ? 'Update' : 'Add New'}} Subject</h2>
       <button mat-icon-button (click)="onNoClick()"><mat-icon>close</mat-icon></button>
     </div>
     <div mat-dialog-content>
@@ -34,7 +34,7 @@ import { CommonModule } from '@angular/common';
     <div mat-dialog-actions align="end" class="dialog-actions">
       <button mat-button (click)="onNoClick()">Cancel</button>
       <button mat-flat-button color="primary" [disabled]="subjectForm.invalid" (click)="onSubmit()">
-        Create Subject
+        {{isEdit ? 'Update' : 'Create'}} Subject
       </button>
     </div>
   `,
@@ -50,15 +50,17 @@ import { CommonModule } from '@angular/common';
 })
 export class AddSubjectDialogComponent {
   subjectForm: FormGroup;
+  isEdit = false;
 
   constructor(
     public dialogRef: MatDialogRef<AddSubjectDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private fb: FormBuilder
   ) {
+    this.isEdit = !!data?.subject;
     this.subjectForm = this.fb.group({
-      name: ['', Validators.required],
-      description: ['']
+      name: [data?.subject?.name || '', Validators.required],
+      description: [data?.subject?.description || '']
     });
   }
 

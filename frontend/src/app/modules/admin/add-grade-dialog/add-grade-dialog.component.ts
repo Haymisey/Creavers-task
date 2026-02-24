@@ -25,7 +25,7 @@ import { CommonModule } from '@angular/common';
   ],
   template: `
     <div class="dialog-header">
-      <h2 mat-dialog-title>Create Academic Class</h2>
+      <h2 mat-dialog-title>{{isEdit ? 'Update' : 'Create'}} Academic Class</h2>
       <button mat-icon-button (click)="onNoClick()"><mat-icon>close</mat-icon></button>
     </div>
     <div mat-dialog-content>
@@ -77,7 +77,7 @@ import { CommonModule } from '@angular/common';
     <div mat-dialog-actions align="end" class="dialog-actions">
       <button mat-button (click)="onNoClick()">Cancel</button>
       <button mat-flat-button color="primary" [disabled]="classForm.invalid" (click)="onSubmit()">
-        Create Class
+        {{isEdit ? 'Update' : 'Create'}} Class
       </button>
     </div>
   `,
@@ -97,29 +97,39 @@ import { CommonModule } from '@angular/common';
 })
 export class AddGradeDialogComponent {
   classForm: FormGroup;
+  isEdit = false;
 
   constructor(
     public dialogRef: MatDialogRef<AddGradeDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private fb: FormBuilder
   ) {
+    this.isEdit = !!data.grade;
+    const studentIds = data.grade?.students?.map((s: any) => s._id || s) || [];
+
     this.classForm = this.fb.group({
-      name: ['', Validators.required],
-      studentIds: [[], Validators.required],
+      name: [data.grade?.name || '', Validators.required],
+      studentIds: [studentIds, Validators.required],
       subjectTeachers: this.fb.array([])
     });
-    // Add one initial assignment row
-    this.addAssignment();
+
+    if (this.isEdit && data.grade.subjectTeachers) {
+      data.grade.subjectTeachers.forEach((st: any) => {
+        this.addAssignment(st.subject?._id || st.subject, st.teacher?._id || st.teacher);
+      });
+    } else {
+      this.addAssignment();
+    }
   }
 
   get subjectTeachers() {
     return this.classForm.get('subjectTeachers') as FormArray;
   }
 
-  addAssignment() {
+  addAssignment(subjectId: string = '', teacherId: string = '') {
     const group = this.fb.group({
-      subject: ['', Validators.required],
-      teacher: ['', Validators.required]
+      subject: [subjectId, Validators.required],
+      teacher: [teacherId, Validators.required]
     });
     this.subjectTeachers.push(group);
   }

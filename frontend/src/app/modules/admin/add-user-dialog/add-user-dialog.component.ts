@@ -13,7 +13,7 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule, ReactiveFormsModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule],
   template: `
     <div class="dialog-header">
-      <h2 mat-dialog-title>Add New {{data.role}}</h2>
+      <h2 mat-dialog-title>{{isEdit ? 'Update' : 'Add New'}} {{data.role}}</h2>
       <button mat-icon-button (click)="onNoClick()"><mat-icon>close</mat-icon></button>
     </div>
     <div mat-dialog-content>
@@ -31,16 +31,16 @@ import { CommonModule } from '@angular/common';
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Secure Password</mat-label>
+          <mat-label>{{isEdit ? 'New Password (optional)' : 'Secure Password'}}</mat-label>
           <mat-icon matPrefix>lock</mat-icon>
-          <input matInput type="password" formControlName="password" placeholder="Min 6 characters">
+          <input matInput type="password" formControlName="password" [placeholder]="isEdit ? 'Leave blank to keep current' : 'Min 6 characters'">
         </mat-form-field>
       </form>
     </div>
     <div mat-dialog-actions align="end" class="dialog-actions">
       <button mat-button (click)="onNoClick()">Cancel</button>
       <button mat-flat-button color="primary" [disabled]="userForm.invalid" (click)="onSubmit()">
-        Create {{data.role}}
+        {{isEdit ? 'Update' : 'Create'}} {{data.role}}
       </button>
     </div>
   `,
@@ -56,16 +56,18 @@ import { CommonModule } from '@angular/common';
 })
 export class AddUserDialogComponent {
   userForm: FormGroup;
+  isEdit = false;
 
   constructor(
     public dialogRef: MatDialogRef<AddUserDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private fb: FormBuilder
   ) {
+    this.isEdit = !!data.user;
     this.userForm = this.fb.group({
-      name: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      name: [data.user?.name || '', Validators.required],
+      email: [data.user?.email || '', [Validators.required, Validators.email]],
+      password: ['', this.isEdit ? [] : [Validators.required, Validators.minLength(6)]]
     });
   }
 
@@ -74,6 +76,10 @@ export class AddUserDialogComponent {
   }
 
   onSubmit(): void {
-    this.dialogRef.close(this.userForm.value);
+    const value = { ...this.userForm.value };
+    if (this.isEdit && !value.password) {
+      delete value.password;
+    }
+    this.dialogRef.close(value);
   }
 }

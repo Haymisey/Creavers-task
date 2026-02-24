@@ -72,7 +72,7 @@ export class DashboardComponent implements OnInit {
           subjectId: result.subjectId,
           marks: result.marks
         }).subscribe(() => {
-          // Success
+          this.loadData();
         });
       }
     });

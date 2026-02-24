@@ -15,8 +15,36 @@ router.get('/assigned-students', async (req, res) => {
     const grades = await Grade.find({ "subjectTeachers.teacher": req.user.id })
       .populate('students', 'name email')
       .populate('subjectTeachers.subject', 'name');
+
+    // Fetch marks for these grades
+    const marks = await Mark.find({ 
+      grade: { $in: grades.map(g => g._id) }
+    }).lean();
+
+    // Attach marks to students in the grades
+    const gradesWithMarks = grades.map(grade => {
+      const plainGrade = grade.toObject();
+      plainGrade.students = plainGrade.students.map(student => {
+        // Find marks for this student in this grade for subjects taught by this teacher
+        student.marks = marks.filter(m => 
+          m.student.toString() === student._id.toString() && 
+          m.grade.toString() === grade._id.toString() &&
+          grade.subjectTeachers.some(st => 
+            st.teacher.toString() === req.user.id && 
+            st.subject._id.toString() === m.subject.toString()
+          )
+        ).map(m => ({
+          subjectId: m.subject,
+          subjectName: grade.subjectTeachers.find(st => st.subject._id.toString() === m.subject.toString())?.subject.name,
+          score: m.marks
+        }));
+        return student;
+      });
+      return plainGrade;
+    });
+
     console.log(`Found ${grades.length} grades for teacher ${req.user.id}`);
-    res.json(grades);
+    res.json(gradesWithMarks);
   } catch (err) {
     console.error('Error fetching assigned students:', err);
     res.status(500).send('Server Error');

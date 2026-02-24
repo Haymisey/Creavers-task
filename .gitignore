@@ -5,7 +5,6 @@ dist/
 
 # Environment
 .env
-auth.js
 jwt.secret
 
 # IDEs

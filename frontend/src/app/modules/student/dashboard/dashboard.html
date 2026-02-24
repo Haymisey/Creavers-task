@@ -53,8 +53,11 @@
             <ng-container matColumnDef="marks">
               <th mat-header-cell *matHeaderCellDef> Score </th>
               <td mat-cell *matCellDef="let mark"> 
-                <span class="score-badge" [class.high-score]="mark.marks >= 80" [class.low-score]="mark.marks < 50">
+                <span *ngIf="mark.marks !== null" class="score-badge" [class.high-score]="mark.marks >= 80" [class.low-score]="mark.marks < 50">
                   {{mark.marks}}%
+                </span>
+                <span *ngIf="mark.marks === null" class="not-assigned">
+                  Not Assigned
                 </span>
               </td>
             </ng-container>

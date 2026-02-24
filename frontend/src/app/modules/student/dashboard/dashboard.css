@@ -179,6 +179,24 @@
   color: #ef4444;
 }
 
+.not-assigned {
+  padding: 6px 12px;
+  background: rgba(148, 163, 184, 0.1);
+  color: var(--text-muted);
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.subject-desc {
+  font-size: 11px;
+  color: var(--text-muted);
+  display: block;
+  margin-top: 2px;
+}
+
 .spacer {
   flex: 1;
 }

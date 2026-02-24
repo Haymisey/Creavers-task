@@ -30,10 +30,10 @@ app.use('/api/teacher', require('./routes/teacher'));
 app.use('/api/student', require('./routes/student'));
 
 // Serve static assets in production
-if (process.env.NODE_ENV === 'production' || true) { // Force for now to test local monolith
+if (process.env.NODE_ENV === 'production') {
   app.use(express.static('public'));
 
-  app.get('*', (req, res) => {
+  app.get('(.*)', (req, res) => {
     res.sendFile(path.resolve(__dirname, 'public', 'index.html'));
   });
 }

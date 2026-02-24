@@ -29,7 +29,8 @@ router.post('/teachers', async (req, res) => {
     await user.save();
     res.json(user);
   } catch (err) {
-    res.status(500).send('Server Error');
+    console.error('Error creating teacher:', err);
+    res.status(500).json({ error: err.message });
   }
 });
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DataService } from '../../../services/data.service';
 import { AuthService } from '../../../services/auth.service';
@@ -41,7 +41,8 @@ export class DashboardComponent implements OnInit {
     private dataService: DataService, 
     private authService: AuthService,
     private router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -49,10 +50,22 @@ export class DashboardComponent implements OnInit {
   }
 
   loadData() {
-    this.dataService.getTeachers().subscribe((data: any[]) => this.teachers = data);
-    this.dataService.getStudents().subscribe((data: any[]) => this.students = data);
-    this.dataService.getSubjects().subscribe((data: any[]) => this.subjects = data);
-    this.dataService.getGrades().subscribe((data: any[]) => this.grades = data);
+    this.dataService.getTeachers().subscribe((data: any[]) => {
+      this.teachers = data;
+      this.cdr.detectChanges();
+    });
+    this.dataService.getStudents().subscribe((data: any[]) => {
+      this.students = data;
+      this.cdr.detectChanges();
+    });
+    this.dataService.getSubjects().subscribe((data: any[]) => {
+      this.subjects = data;
+      this.cdr.detectChanges();
+    });
+    this.dataService.getGrades().subscribe((data: any[]) => {
+      this.grades = data;
+      this.cdr.detectChanges();
+    });
   }
 
   logout() {

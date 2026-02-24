@@ -1,0 +1,23 @@
+# Dependencies
+node_modules/
+dist/
+.angular/
+
+# Environment
+.env
+auth.js
+jwt.secret
+
+# IDEs
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+frontend/dist/
+frontend/.angular/
+backend/node_modules/
+frontend/node_modules/

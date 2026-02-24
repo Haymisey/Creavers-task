@@ -1,0 +1,28 @@
+<div class="dashboard-container">
+  <mat-toolbar color="primary">
+    <span>School Management System - Teacher</span>
+    <span class="spacer"></span>
+    <button mat-button (click)="logout()">Logout</button>
+  </mat-toolbar>
+
+  <div class="content">
+    <h3>Assigned Grades & Students</h3>
+    <div *ngFor="let grade of assignedGrades" class="grade-section">
+      <h4>{{grade.name}}</h4>
+      <table mat-table [dataSource]="grade.students" class="mat-elevation-z8">
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef> Student Name </th>
+          <td mat-cell *matCellDef="let student"> {{student.name}} </td>
+        </ng-container>
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef> Actions </th>
+          <td mat-cell *matCellDef="let student">
+            <button mat-button color="primary" (click)="assignMarks(student, grade._id)">Assign Marks</button>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="['name', 'actions']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['name', 'actions'];"></tr>
+      </table>
+    </div>
+  </div>
+</div>

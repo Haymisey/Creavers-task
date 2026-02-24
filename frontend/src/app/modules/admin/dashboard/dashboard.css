@@ -160,6 +160,29 @@
   background: rgba(255, 255, 255, 0.02);
 }
 
+.modern-table tr:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.assignment-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.st-chip {
+  background: rgba(var(--primary-rgb), 0.1);
+  color: var(--primary);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  border: 1px solid rgba(var(--primary-rgb), 0.2);
+}
+
+.st-chip strong {
+  color: var(--text);
+}
+
 .mat-flat-button {
   padding: 0 24px !important;
   height: 48px !important;

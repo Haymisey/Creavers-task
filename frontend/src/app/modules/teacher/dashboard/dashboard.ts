@@ -38,9 +38,6 @@ export class DashboardComponent implements OnInit {
     this.dataService.getAssignedStudents().subscribe((data: any[]) => {
       this.assignedGrades = data;
     });
-    this.dataService.getSubjects().subscribe((data: any[]) => {
-      this.subjects = data;
-    });
   }
 
   logout() {
@@ -48,17 +45,26 @@ export class DashboardComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 
-  assignMarks(student: any, gradeId: string) {
+  getTeacherSubjectsForGrade(grade: any) {
+    const userId = this.authService.currentUserValue?._id;
+    return grade.subjectTeachers
+      .filter((st: any) => (st.teacher?._id || st.teacher) === userId)
+      .map((st: any) => st.subject);
+  }
+
+  assignMarks(student: any, grade: any) {
+    const teacherSubjects = this.getTeacherSubjectsForGrade(grade);
+    
     const dialogRef = this.dialog.open(AssignMarksDialogComponent, {
       width: '400px',
-      data: { student, subjects: this.subjects }
+      data: { student, subjects: teacherSubjects }
     });
 
     dialogRef.afterClosed().subscribe((result: any) => {
       if (result) {
         this.dataService.assignMarks({
           studentId: student._id,
-          gradeId: gradeId,
+          gradeId: grade._id,
           subjectId: result.subjectId,
           marks: result.marks
         }).subscribe(() => {

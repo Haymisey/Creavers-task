@@ -83,40 +83,64 @@ router.post('/subjects', async (req, res) => {
 // @route   GET api/admin/grades
 router.get('/grades', async (req, res) => {
   try {
-    const grades = await Grade.find().populate('teacher', 'name').populate('students', 'name');
+    const grades = await Grade.find()
+      .populate('students', 'name email')
+      .populate('subjectTeachers.subject', 'name')
+      .populate('subjectTeachers.teacher', 'name');
     res.json(grades);
   } catch (err) {
-    res.status(500).send('Server Error');
+    console.error('Error fetching grades:', err);
+    res.status(500).json({ error: 'Failed to fetch classes', details: err.message });
   }
 });
 
 // @route   POST api/admin/grades
 router.post('/grades', async (req, res) => {
-  const { name, teacherId, studentIds } = req.body;
+  const { name, studentIds, subjectTeachers } = req.body;
   try {
-    const newGrade = new Grade({ name, teacher: teacherId, students: studentIds });
+    const newGrade = new Grade({ 
+      name, 
+      students: studentIds, 
+      subjectTeachers: subjectTeachers // Expecting array of { subject: id, teacher: id }
+    });
     await newGrade.save();
     res.json(newGrade);
   } catch (err) {
-    res.status(500).send('Server Error');
+    console.error('Error creating class:', err);
+    res.status(500).json({ error: 'Failed to create class', details: err.message });
+  }
+});
+
+// @route   PUT api/admin/grades/:id
+router.get('/grades/:id', async (req, res) => {
+  try {
+    const grade = await Grade.findById(req.params.id)
+      .populate('students', 'name email')
+      .populate('subjectTeachers.subject', 'name')
+      .populate('subjectTeachers.teacher', 'name');
+    if (!grade) return res.status(404).json({ msg: 'Class not found' });
+    res.json(grade);
+  } catch (err) {
+    res.status(500).json({ error: 'Server Error' });
   }
 });
 
 // @route   PUT api/admin/grades/:id
 router.put('/grades/:id', async (req, res) => {
-  const { name, teacherId, studentIds } = req.body;
+  const { name, studentIds, subjectTeachers } = req.body;
   try {
     let grade = await Grade.findById(req.params.id);
-    if (!grade) return res.status(404).json({ msg: 'Grade not found' });
+    if (!grade) return res.status(404).json({ msg: 'Class not found' });
 
     grade.name = name || grade.name;
-    grade.teacher = teacherId || grade.teacher;
     grade.students = studentIds || grade.students;
+    grade.subjectTeachers = subjectTeachers || grade.subjectTeachers;
 
     await grade.save();
     res.json(grade);
   } catch (err) {
-    res.status(500).send('Server Error');
+    console.error('Error updating class:', err);
+    res.status(500).json({ error: 'Failed to update class', details: err.message });
   }
 });
 

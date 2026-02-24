@@ -113,8 +113,8 @@ export class DashboardComponent implements OnInit {
 
   addGrade() {
     const dialogRef = this.dialog.open(AddGradeDialogComponent, {
-      width: '400px',
-      data: { teachers: this.teachers, students: this.students }
+      width: '600px',
+      data: { teachers: this.teachers, students: this.students, subjects: this.subjects }
     });
 
     dialogRef.afterClosed().subscribe((result: any) => {

@@ -36,4 +36,12 @@ export class DashboardComponent implements OnInit {
     this.authService.logout();
     this.router.navigate(['/login']);
   }
+
+  getTeacherForMark(mark: any): string {
+    if (!mark.grade || !mark.grade.subjectTeachers) return 'N/A';
+    const assignment = mark.grade.subjectTeachers.find((st: any) => 
+      (st.subject?._id || st.subject) === (mark.subject?._id || mark.subject)
+    );
+    return assignment?.teacher?.name || 'N/A';
+  }
 }

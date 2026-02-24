@@ -123,7 +123,7 @@
               <div class="tab-header">
                 <h3>Academic Classes</h3>
                 <button mat-flat-button color="primary" (click)="addGrade()">
-                  <mat-icon>add</mat-icon> New Grade
+                  <mat-icon>add</mat-icon> New Class
                 </button>
               </div>
               <div class="table-container">
@@ -133,8 +133,14 @@
                     <td mat-cell *matCellDef="let grade"> {{grade.name}} </td>
                   </ng-container>
                   <ng-container matColumnDef="teacher">
-                    <th mat-header-cell *matHeaderCellDef> Teacher </th>
-                    <td mat-cell *matCellDef="let grade"> {{grade.teacher?.name}} </td>
+                    <th mat-header-cell *matHeaderCellDef> Subject Assignments </th>
+                    <td mat-cell *matCellDef="let grade"> 
+                      <div class="assignment-chips">
+                        <span *ngFor="let st of grade.subjectTeachers" class="st-chip">
+                          <strong>{{st.subject?.name}}</strong>: {{st.teacher?.name}}
+                        </span>
+                      </div>
+                    </td>
                   </ng-container>
                   <ng-container matColumnDef="actions">
                     <th mat-header-cell *matHeaderCellDef> Actions </th>

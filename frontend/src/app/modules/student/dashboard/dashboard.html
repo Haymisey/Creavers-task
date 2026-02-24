@@ -1,27 +1,64 @@
-<div class="dashboard-container">
-  <mat-toolbar color="primary">
-    <span>School Management System - Student</span>
-    <span class="spacer"></span>
-    <button mat-button (click)="logout()">Logout</button>
-  </mat-toolbar>
+<div class="dashboard-page">
+  <div class="background-decor">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+  </div>
 
-  <div class="content">
-    <h3>My Marks</h3>
-    <table mat-table [dataSource]="marks" class="mat-elevation-z8">
-      <ng-container matColumnDef="subject">
-        <th mat-header-cell *matHeaderCellDef> Subject </th>
-        <td mat-cell *matCellDef="let mark"> {{mark.subject?.name}} </td>
-      </ng-container>
-      <ng-container matColumnDef="grade">
-        <th mat-header-cell *matHeaderCellDef> Grade </th>
-        <td mat-cell *matCellDef="let mark"> {{mark.grade?.name}} </td>
-      </ng-container>
-      <ng-container matColumnDef="marks">
-        <th mat-header-cell *matHeaderCellDef> Marks </th>
-        <td mat-cell *matCellDef="let mark"> {{mark.marks}} </td>
-      </ng-container>
-      <tr mat-header-row *matHeaderRowDef="['subject', 'grade', 'marks']"></tr>
-      <tr mat-row *matRowDef="let row; columns: ['subject', 'grade', 'marks'];"></tr>
-    </table>
+  <div class="dashboard-container">
+    <header class="app-header">
+      <div class="brand">
+        <div class="logo-sm">
+          <span class="material-symbols-outlined">school</span>
+        </div>
+        <span>Creavers Student</span>
+      </div>
+      <div class="spacer"></div>
+      <button mat-flat-button color="warn" (click)="logout()" class="logout-btn">
+        <mat-icon>logout</mat-icon>
+        Logout
+      </button>
+    </header>
+
+    <main class="content-area">
+      <div class="welcome-banner">
+        <h2>My Academic Progress</h2>
+        <p>Keep track of your latest marks and achievements.</p>
+      </div>
+
+      <mat-card class="main-card">
+        <div class="card-header">
+          <mat-icon>analytics</mat-icon>
+          <h3>Detailed Marks Report</h3>
+        </div>
+        
+        <div class="table-container">
+          <table mat-table [dataSource]="marks" class="modern-table">
+            <ng-container matColumnDef="subject">
+              <th mat-header-cell *matHeaderCellDef> Subject </th>
+              <td mat-cell *matCellDef="let mark" class="subject-cell"> 
+                <div class="subject-info">
+                  <span class="subject-name">{{mark.subject?.name}}</span>
+                  <span class="subject-desc">{{mark.subject?.description || 'Core Subject'}}</span>
+                </div>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="grade">
+              <th mat-header-cell *matHeaderCellDef> Grade Level </th>
+              <td mat-cell *matCellDef="let mark"> {{mark.grade?.name}} </td>
+            </ng-container>
+            <ng-container matColumnDef="marks">
+              <th mat-header-cell *matHeaderCellDef> Score </th>
+              <td mat-cell *matCellDef="let mark"> 
+                <span class="score-badge" [class.high-score]="mark.marks >= 80" [class.low-score]="mark.marks < 50">
+                  {{mark.marks}}%
+                </span>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="['subject', 'grade', 'marks']"></tr>
+            <tr mat-row *matRowDef="let row; columns: ['subject', 'grade', 'marks'];"></tr>
+          </table>
+        </div>
+      </mat-card>
+    </main>
   </div>
 </div>

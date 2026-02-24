@@ -9,10 +9,13 @@ import { Router } from '@angular/router';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { AssignMarksDialogComponent } from '../assign-marks-dialog/assign-marks-dialog.component';
 
+import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
+
 @Component({
   selector: 'app-teacher-dashboard',
   standalone: true,
-  imports: [CommonModule, MatToolbarModule, MatButtonModule, MatTableModule, MatDialogModule, AssignMarksDialogComponent],
+  imports: [CommonModule, MatToolbarModule, MatButtonModule, MatTableModule, MatDialogModule, MatIconModule, MatCardModule],
   templateUrl: './dashboard.html',
   styleUrls: ['./dashboard.css']
 })

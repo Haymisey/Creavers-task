@@ -7,10 +7,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { Router } from '@angular/router';
 
+import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
+
 @Component({
   selector: 'app-student-dashboard',
   standalone: true,
-  imports: [CommonModule, MatToolbarModule, MatButtonModule, MatTableModule],
+  imports: [CommonModule, MatToolbarModule, MatButtonModule, MatTableModule, MatIconModule, MatCardModule],
   templateUrl: './dashboard.html',
   styleUrls: ['./dashboard.css']
 })

@@ -13,6 +13,8 @@ import { AddUserDialogComponent } from '../add-user-dialog/add-user-dialog.compo
 import { AddSubjectDialogComponent } from '../add-subject-dialog/add-subject-dialog.component';
 import { AddGradeDialogComponent } from '../add-grade-dialog/add-grade-dialog.component';
 
+import { MatCardModule } from '@angular/material/card';
+
 @Component({
   selector: 'app-admin-dashboard',
   standalone: true,
@@ -24,9 +26,7 @@ import { AddGradeDialogComponent } from '../add-grade-dialog/add-grade-dialog.co
     MatDialogModule,
     MatIconModule,
     MatToolbarModule,
-    AddUserDialogComponent,
-    AddSubjectDialogComponent,
-    AddGradeDialogComponent
+    MatCardModule
   ],
   templateUrl: './dashboard.html',
   styleUrls: ['./dashboard.css']

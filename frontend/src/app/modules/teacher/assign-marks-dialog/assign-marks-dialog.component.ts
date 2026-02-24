@@ -47,7 +47,8 @@ import { CommonModule } from '@angular/common';
     .dialog-form { display: flex; flex-direction: column; gap: 8px; padding-top: 8px; }
     .full-width { width: 100%; }
     .dialog-actions { padding: 16px 0 0; }
-    button[mat-flat-button] { border-radius: 12px; font-weight: 600; padding: 0 24px; }
+    button[mat-button] { color: var(--text-muted); }
+    button[mat-flat-button] { border-radius: 12px; font-weight: 600; padding: 0 24px; color: white !important; }
   `]
 })
 export class AssignMarksDialogComponent {

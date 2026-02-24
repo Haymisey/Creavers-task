@@ -33,7 +33,8 @@ app.use('/api/student', require('./routes/student'));
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('public'));
 
-  app.get('(.*)', (req, res) => {
+  // SPA fallback – serve index.html for any non-API request
+  app.use((req, res) => {
     res.sendFile(path.resolve(__dirname, 'public', 'index.html'));
   });
 }
